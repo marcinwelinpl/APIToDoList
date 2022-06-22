@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using APIToDoList.Entity;
+using APIToDoList.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -7,80 +9,34 @@ using System.Threading.Tasks;
 
 namespace APIToDoList.Controllers
 {
+	[Route("ToDoList")]
 	public class ToDoListController : Controller
 	{
+		private readonly IToDoService _service;
+		public ToDoListController(IToDoService toDoService)
+		{
+			_service = toDoService;
+		}
+		[HttpGet()]
 		public ActionResult Index()
 		{
-			return View();
+			return Ok();
 		}
-
-		// GET: ToDoListController/Details/5
+		[HttpGet("{id}")]
 		public ActionResult Details(int id)
 		{
-			return View();
+			return Ok(_service.GetUser(id));
 		}
 
-		// GET: ToDoListController/Create
-		public ActionResult Create()
-		{
-			return View();
-		}
-
-		// POST: ToDoListController/Create
 		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Create(IFormCollection collection)
+		public ActionResult CreateUser([FromBody] User user)
 		{
-			try
+			if (!ModelState.IsValid)
 			{
-				return RedirectToAction(nameof(Index));
+				return BadRequest(ModelState);
 			}
-			catch
-			{
-				return View();
-			}
-		}
-
-		// GET: ToDoListController/Edit/5
-		public ActionResult Edit(int id)
-		{
-			return View();
-		}
-
-		// POST: ToDoListController/Edit/5
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Edit(int id, IFormCollection collection)
-		{
-			try
-			{
-				return RedirectToAction(nameof(Index));
-			}
-			catch
-			{
-				return View();
-			}
-		}
-
-		// GET: ToDoListController/Delete/5
-		public ActionResult Delete(int id)
-		{
-			return View();
-		}
-
-		// POST: ToDoListController/Delete/5
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Delete(int id, IFormCollection collection)
-		{
-			try
-			{
-				return RedirectToAction(nameof(Index));
-			}
-			catch
-			{
-				return View();
-			}
+			int id = _service.CreateUser(user);
+			return Created($"/ToDoList/{id}", null);
 		}
 	}
 }
