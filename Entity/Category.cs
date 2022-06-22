@@ -9,7 +9,7 @@ namespace APIToDoList.Entity
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }
-		public int  BoardID { get; set; }
-		virtual public Board Board { get; set; }
+		public int UserId { get; set; }
+		public virtual User User { get; set; }
 	}
 }

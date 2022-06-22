@@ -10,7 +10,5 @@ namespace APIToDoList.Entity
 		public int Id { get; set; }
 		public string Login { get; set; }
 		public string Passoword { get; set; }
-		public int BoardId { get; set; }
-		virtual public Board Board { get; set; }
 	}
 }

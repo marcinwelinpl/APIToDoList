@@ -17,20 +17,30 @@ namespace APIToDoList.Services
 		{
 			return _dbContext.User.FirstOrDefault(x => x.Id == id);
 		}
+		public bool CheckUserExist(string login)
+		{
+			var user = _dbContext.User.FirstOrDefault(x => x.Login == login);
+			if (user==null)
+			{
+				return false;
+			}
+			return true;
+		}
 		public int CreateUser(User user)
 		{
 			User User = user;
-			User.BoardId = CreateBoard("Main", "Defoult Board");
 			_dbContext.User.Add(User);
 			_dbContext.SaveChanges();
+			CreateBoard("Main", "Default Board", user.Id);
 			return User.Id;
 		}
-		public int CreateBoard(string name, string descriptino)
+		public int CreateBoard(string name, string descriptino, int UserId)
 		{
 			Board board = new Board()
 			{
 				Name = name,
-				Description = descriptino
+				Description = descriptino,
+				UserId = UserId
 			};
 			_dbContext.Boards.Add(board);
 			_dbContext.SaveChanges();

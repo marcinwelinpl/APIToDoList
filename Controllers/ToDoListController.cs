@@ -35,6 +35,10 @@ namespace APIToDoList.Controllers
 			{
 				return BadRequest(ModelState);
 			}
+			if(_service.CheckUserExist(user.Login))
+			{
+				return BadRequest("In database exist account in this login");
+			}
 			int id = _service.CreateUser(user);
 			return Created($"/ToDoList/{id}", null);
 		}
