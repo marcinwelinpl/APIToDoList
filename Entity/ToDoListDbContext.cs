@@ -31,7 +31,6 @@ namespace APIToDoList.Entity
 			modelBuilder.Entity<User>()
 				.Property(e => e.Passoword)
 				.IsRequired();
-
 		}
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

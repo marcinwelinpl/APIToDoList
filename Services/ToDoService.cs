@@ -46,5 +46,71 @@ namespace APIToDoList.Services
 			_dbContext.SaveChanges();
 			return board.Id;
 		}
+		public void CreateCategory(string name, int UserId)
+		{
+			Category category = new Category()
+			{
+				Name = name,
+				UserId = UserId
+			};
+			_dbContext.Category.Add(category);
+			_dbContext.SaveChanges();
+		}
+		public void CreateTask(string name,string descritpion , int? CategoryId, int BoardId)
+		{
+			Entity.Task task = new Entity.Task()
+			{
+				Name = name,
+				Description = descritpion,
+				CategoryId = CategoryId,
+				BoardID= BoardId
+			};
+			_dbContext.Task.Add(task);
+			_dbContext.SaveChanges();
+		}
+		public bool DeleteUser(int id)
+		{
+			User user = _dbContext.User.FirstOrDefault(x => x.Id == id);
+			if(user ==null)
+			{
+				return false;
+			}
+			_dbContext.User.Remove(user);
+			_dbContext.SaveChanges();
+			return true;
+		}
+		public bool DeleteBoard(int id)
+		{
+			Board board  = _dbContext.Boards.FirstOrDefault(x => x.Id == id);
+			if (board == null)
+			{
+				return false;
+			}
+			_dbContext.Boards.Remove(board);
+			_dbContext.SaveChanges();
+			return true;
+		}
+		public bool DeleteCategory(int id)
+		{
+			Category category= _dbContext.Category.FirstOrDefault(x => x.Id == id);
+			if (category == null)
+			{
+				return false;
+			}
+			_dbContext.Category.Remove(category);
+			_dbContext.SaveChanges();
+			return true;
+		}
+		public bool DeleteTask(int id)
+		{
+			Entity.Task task = _dbContext.Task.FirstOrDefault(x => x.Id == id);
+			if (task == null)
+			{
+				return false;
+			}
+			_dbContext.Task.Remove(task);
+			_dbContext.SaveChanges();
+			return true;
+		}
 	}
 }
